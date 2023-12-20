@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <title>React 2-uy ishi (remove notes)</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        let title = 'Weekly tasks in programming'
+function App() {
+    const [text, setText] = React.useState('')
+    const [notes, setNotes] = React.useState([
+        {order: Math.random(), task: "Watching lesson", time: new Date().toLocaleString()},
+        {order: Math.random(), task: "Doing homework", time: new Date().toLocaleString()},
+        {order: Math.random(), task: "Learning 'Learn JavaScript'", time: new Date().toLocaleString()},
+        {order: Math.random(), task: "Page make-up (verstka)", time: new Date().toLocaleString()},
+        {order: Math.random(), task: "Watching youtube videos regarding programming", time: new Date().toLocaleString()},
+        
+    ])
+    function addNotes(event) {
+        event.preventDefault()
+        if (text.length>3) {
+            let newNote = {
+                order: Math.random(),
+                task: text,
+                time: new Date().toLocaleString()
+            }
+            setNotes([...notes, newNote])
+            setText('')
+        }
+    }
+    function removeNote(order) {
+        // console.log(order);
+        setNotes(notes.filter(note=>note.order!=order))
+    }
+    return(
+        <div className="container">
+            <div className="wrapper">
+                <h2 className ='title'>{title}</h2>
+                <form action="#" onSubmit={(event)=>addNotes(event)}>
+                    <input type="text" value = {text} onChange={(e)=>setText(e.target.value)}/>
+                    <button>add note</button>
+                    </form>
+                    <ul>
+                        { notes.map((note, i)=>(
+                            <li key={note.order}>
+                                <h2>order: {i+1}</h2>
+                                <h2>{note.task}</h2>
+                                <h2>{note.time}</h2>
+                                <button className="remove_btn" onClick={()=>removeNote(note.order)}>remove</button>
+                                </li>
+                        ))
+                            }
+                        
+                        </ul>
+                </div>
+            </div>
+    )
+}
+const app = document.getElementById('root')
+const root = ReactDOM.createRoot(app)
+root.render(<App/>)
+    </script>
+</body>
+</html>
